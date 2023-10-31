@@ -1,10 +1,12 @@
 import Paises.*
 import Participantes.*
+import Actividades.*
 
 object cumbre {
 	const paisesParticipantesDeLaCumbre = []
 	const personasParticipantesDeLaCumbre = []
 	var property cantidadDeCommitsDeLaCumbre = 300
+	const actividadesQueSeRealizanEnLaCumbre = #{}
 	
 	method registrarIngresoDePersonaALaCumbre(unParticipante){
 		personasParticipantesDeLaCumbre.add(unParticipante)
@@ -68,5 +70,16 @@ object cumbre {
 		return personasParticipantesDeLaCumbre.all({p => self.puedeIngresar(p)})
 	}
 	
+	method registrarUnaActividad(unaActividad){
+		actividadesQueSeRealizanEnLaCumbre.add(unaActividad)
+		personasParticipantesDeLaCumbre.forEach({p => p.hacerUnaActividad(unaActividad)})
+	}
 	
+	method actividadesQueSeRealizanEnLaCumbre(){
+		return actividadesQueSeRealizanEnLaCumbre
+	}
+	
+	method totalDeHorasDeLasActividades(){
+		return actividadesQueSeRealizanEnLaCumbre.sum({a => a.cantidadDeHoras()})
+	}
 }

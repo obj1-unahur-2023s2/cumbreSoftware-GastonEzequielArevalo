@@ -1,11 +1,12 @@
 import conocimientos.*
 import Paises.*
 import Cumbre.*
+import Actividades.*
 
 class Participante {
 	const pais
 	const conocimientos = []
-	const cantidadDeCommits
+	var cantidadDeCommits
 	
 	method esCape(){
 		return cantidadDeCommits > 500
@@ -25,13 +26,23 @@ class Participante {
 		return self.puedeParticiparEnLaCumbre()
 	}
 	
+	method hacerUnaActividad(unaActividad){
+		conocimientos.add(unaActividad)
+		cantidadDeCommits += unaActividad.tema().commitsPorHora() * unaActividad.cantidadDeHoras()
+	}
 	
 }
 
 class Programador inherits Participante{
+	var horasDeCapacitacion = 0
 	
 	override method condicion(){
 		return cantidadDeCommits >= cumbre.cantidadDeCommitsDeLaCumbre()
+	}
+	
+	override method hacerUnaActividad(unaActividad){
+		super(unaActividad)
+		horasDeCapacitacion += unaActividad.cantidadDeHoras()
 	}
 }
 
@@ -46,3 +57,14 @@ class Especialista inherits Participante{
 	}
 }
 
+class Gerente inherits Participante{
+	const empresaEnLaQueTrabaja
+	
+	override method esCape(){
+		return empresaEnLaQueTrabaja.esMultinacional()
+	}
+	
+	override method condicion(){
+		return conocimientos.contains(manejoDeGrupos)
+	}
+}

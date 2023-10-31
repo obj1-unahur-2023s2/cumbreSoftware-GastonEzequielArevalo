@@ -2,6 +2,7 @@ import Cumbre.*
 import Paises.*
 import Participantes.*
 import conocimientos.*
+import Actividades.*
 
 describe "Test de la cumbre"{
 	const argentina = new Pais(esAuspiciante = true,conflictosConLosPaises = [])
@@ -14,6 +15,9 @@ describe "Test de la cumbre"{
 	const lucia = new Programador(pais = brasil, conocimientos = [programacionBasica,basesDeDatos],cantidadDeCommits = 800)
 	const mariana = new Especialista(pais = argentina, conocimientos = [programacionBasica,instalacionLinux,objetos,disenioConObjetos],cantidadDeCommits = 200)
 	const susana = new Especialista(pais = colombia, conocimientos = [programacionBasica,objetos],cantidadDeCommits = 1500)
+	
+		
+	const actividad1 = new Actividad(tema = programacionBasica, cantidadDeHoras = 6)
 
 	test "Los paises deben ser argentina y brasil"{
 		cumbre.registrarIngresoDePersonaALaCumbre(juana)
@@ -75,6 +79,18 @@ describe "Test de la cumbre"{
 		cumbre.registrarIngresoDePersonaALaCumbre(susana)
 		
 		assert.that(cumbre.esSegura())
+	}
+	
+	test "El tema debe ser programacion basica"{
+		cumbre.registrarUnaActividad(actividad1)
+		
+		assert.equals(#{actividad1},cumbre.actividadesQueSeRealizanEnLaCumbre())
+	}
+	
+	test "La cantidad de horas de las actividades debe ser 6"{
+		cumbre.registrarUnaActividad(actividad1)
+		
+		assert.equals(6,cumbre.totalDeHorasDeLasActividades())
 	}
 	
 }
